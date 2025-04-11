@@ -1,6 +1,7 @@
 import { ExitIcon } from "@100mslive/react-icons";
 import {
   selectIsConnectedToRoom,
+  selectLocalPeer,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
@@ -9,9 +10,13 @@ import toast from "react-hot-toast";
 
 function Header() {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
+  const localPeer = useHMSStore(selectLocalPeer);
   const hmsActions = useHMSActions();
 
   const handleLeaveRoom = () => {
+    const userName = localPeer?.name || "";
+    console.log(`User ${userName} has left the room.`);
+
     hmsActions.leave();
     toast.success("Left the room successfully!");
   };
