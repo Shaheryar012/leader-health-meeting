@@ -2,6 +2,7 @@ import { useHMSActions, useHMSStore, selectPeers } from "@100mslive/react-sdk";
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import toast from "react-hot-toast";
+import { isValidEmail } from "../utils/emailValidation";
 
 const JoinForm = () => {
   const hmsActions = useHMSActions();
@@ -23,6 +24,11 @@ const JoinForm = () => {
     e.preventDefault();
 
     const { name = "", roomCode = "" } = inputValues;
+
+    if (!isValidEmail(name)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
 
     if (peers.length >= maxUsers) {
       alert("Room is full. Maximum 2 users allowed.");
@@ -61,7 +67,7 @@ const JoinForm = () => {
             name="name"
             value={inputValues.name}
             onChange={handleInputChange}
-            placeholder="Your Name"
+            placeholder="Your Email"
           ></input>
         </div>
         <div className="input-container">
